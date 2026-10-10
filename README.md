@@ -1,85 +1,131 @@
 # HubEspaços
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Nicho:** Aluguel de quadra ou espaço de eventos · **Grupo:** 03
 
-Projeto acadêmico do IFES — Nicho 20: aluguel de quadras e espaços de eventos. O desenvolvimento é incremental. Os espaços e endereços do seed são fictícios; as fotografias são reais e devem ter autorização de uso.
+**Dupla:** HENRIQUE BODEVAN ALONSO (@henrique2026tiago-design) · TIAGO DA SILVA NUNES MORENO (@tiaguiinvz)
 
-## Integrantes
+**Sistema no ar:** https://hubespacos.vercel.app/
 
-Preencher com os nomes dos dois integrantes, turma e disciplina. Adaptar este documento ao modelo oficial do professor quando ele for fornecido.
+**Repositório:** https://github.com/henrique2026tiago-design/hubespacos
 
-Repositório: https://github.com/henrique2026tiago-design/hubespacos
+## O que o sistema faz
 
-## Estado atual
+O HubEspaços permite encontrar quadras, salões e espaços de eventos, comparar preços e consultar a disponibilidade antes de reservar. O catálogo público consulta o banco PostgreSQL e oferece busca pelo nome, descrição ou endereço. Os registros de demonstração possuem nomes e endereços fictícios, com fotografias reais.
 
-- Etapa 1: schema, migration, integração Prisma/PostgreSQL e seed de oito espaços com upload validado de JPEG no Blob.
-- Etapa 2: catálogo público, busca pela URL no banco, ordenação, detalhes, mensagens de erro, carregamento e interface responsiva.
-- Etapa 3: cadastro, login e logout com Better Auth, sessão persistente e página de conta protegida.
-- Etapa 4: CRUD completo de espaços, upload de fotos pelo formulário e autorização de proprietário no servidor.
-- Etapa 5: reservas com agenda, tarifas por hora, proteção de conflitos, listagens privadas e cancelamento no prazo.
-- Próximas etapas: implantação pública na Vercel e documentação final.
+Após cadastrar uma conta e entrar, o usuário pode:
 
-As tabelas de autenticação e reservas já existem. A autenticação está implementada. O CRUD de espaços e a criação/listagem de reservas estão implementados. A implantação pública e a documentação final ainda precisam ser conferidas. Esta entrega não representa o atendimento completo dos 15 pontos.
+- Criar, listar, consultar, editar e excluir os próprios espaços, com fotografia, capacidade, comodidades e preços.
+- Enviar fotografias JPG, PNG ou WebP de até 2 MB, validadas no servidor e armazenadas no Vercel Blob.
+- Reservar um intervalo disponível e consultar suas reservas.
+- Consultar as reservas recebidas pelos espaços dos quais é proprietário.
+- Cancelar a própria reserva com pelo menos 24 horas de antecedência, liberando o intervalo.
+- Encerrar a sessão com logout.
 
-## Stack
+A agenda funciona das 08h às 23h, no horário de Brasília, com horas inteiras e datas até 90 dias à frente. A tarifa de pico vale das 18h às 22h; o total combina os preços de cada hora. A disponibilidade é atualizada a cada 15 segundos enquanto a aba está visível e conferida novamente no servidor ao confirmar. Reservas ativas não podem se sobrepor. Espaços com reservas vinculadas, inclusive canceladas, não podem ser excluídos, preservando o histórico.
 
-Next.js 16.3.0, React 19.2.8, TypeScript, Tailwind CSS 4, PostgreSQL/Neon, Prisma 7.10.0, Better Auth 1.7.6, Vercel Blob 0.27.3 e Zod 3. Inter e Plus Jakarta Sans são servidas localmente pelos pacotes Fontsource.
+O sistema não processa pagamentos. Após o prazo de cancelamento gratuito, a política demonstrativa prevê 50% do valor, a acertar diretamente com o responsável. Não há recuperação de senha nem confirmação de e-mail implementadas.
 
-O pacote Blob 0.28.0 solicitado inicialmente não estava disponível no npm; utiliza-se 0.27.3 para evitar o erro ETARGET. Registrar essa diferença na entrega ao professor.
+A aplicação utiliza Next.js 16.3.0, React, TypeScript, Tailwind CSS, PostgreSQL no Neon, Prisma 7.10.0, Better Auth 1.7.6, Zod e Vercel Blob. As mutações usam Server Actions, com validação e verificação de sessão e proprietário no servidor. O Better Auth protege as senhas com hash.
 
-## Getting Started
+**Verificações realizadas:** catálogo, busca, detalhes, agenda, cálculo de preços e login foram conferidos no site de produção. Os testes de CRUD, upload, autorização, conflitos, cancelamento e responsividade a 375px passaram em ambiente de teste isolado; nesses testes automatizados, a API Blob foi simulada. Cadastro de espaço com foto e o ciclo de criação/cancelamento de reserva também foram testados localmente durante o desenvolvimento. A revisão automatizada autenticada em produção foi interrompida por uma restrição do navegador de testes, portanto não equivale à aprovação de todas as mutações em produção.
 
-Requer Node.js compatível com Next.js 16 e Prisma 7. Recomenda-se Node 24 LTS. Na primeira instalação, copie `.env.example` para `.env` e preencha localmente as variáveis. Nunca envie os valores para o GitHub.
+## Páginas para testar
+
+Use os caminhos abaixo após o domínio https://hubespacos.vercel.app:
+
+- Pública: `/` — catálogo de espaços sem necessidade de login; o seed cadastra oito espaços e novos cadastros podem ampliar o catálogo.
+- Busca (exemplo que encontra algo): `/?busca=society` — encontra Arena Caparaó Society.
+- Busca sem resultados: `/?busca=naoexiste123` — exibe “Nenhum espaço encontrado”.
+- Detalhes e agenda pública: `/espacos/seed-space-arena-society` — fotografia, descrição, comodidades, capacidade, valores e disponibilidade.
+- Cadastro de usuário: `/cadastro` — permite criar uma conta; a senha deve ter entre 12 e 128 caracteres.
+- Login: `/login` — acesso com e-mail e senha.
+- Protegida (pede login): `/conta` — dados da conta e atalhos das funções privadas.
+- Meus espaços: `/meus-espacos` — lista apenas os espaços do usuário autenticado.
+- Cadastro de espaço: `/espacos/novo` — formulário protegido com upload de fotografia.
+- Minhas reservas: `/minhas-reservas` — reservas do usuário e cancelamento dentro do prazo.
+- Reservas recebidas: `/reservas-recebidas` — reservas dos espaços do proprietário autenticado.
+
+Para testar edição, entre em **Meus espaços**, abra um registro próprio e clique em editar. A rota é `/espacos/<id-do-registro>/editar`; utilize o identificador real exibido pelo aplicativo. Usuários sem sessão são encaminhados ao login; usuários diferentes do proprietário não podem editar ou excluir o registro. O logout está no botão **Sair** do cabeçalho autenticado.
+
+Para testar reservas, escolha uma data três dias à frente, selecione início e fim, confira o total, aceite as condições e confirme. Confira **Minhas reservas**, volte à agenda e verifique o intervalo indisponível. Cancele e confira se o horário ficou livre.
+
+## Banco de dados (tabelas, principais campos e a relação entre elas)
+
+O banco é PostgreSQL hospedado no Neon, acessado pelo Prisma com `@prisma/adapter-pg`. O schema está em `prisma/schema.prisma` e as migrations estão versionadas em `prisma/migrations`.
+
+| Modelo / tabela | Principais campos | Finalidade |
+| --- | --- | --- |
+| `User` / `user` | `id`, `name`, `email`, `emailVerified`, `image`, `createdAt`, `updatedAt` | Usuário, proprietário de espaços e autor de reservas. |
+| `Session` / `session` | `id`, `token`, `userId`, `expiresAt`, `ipAddress`, `userAgent`, timestamps | Sessões do Better Auth. |
+| `Account` / `account` | `id`, `accountId`, `providerId`, `userId`, `password`, tokens opcionais, timestamps | Credenciais do Better Auth; `password` guarda o hash da senha. |
+| `Verification` / `verification` | `id`, `identifier`, `value`, `expiresAt`, timestamps | Estrutura de verificações do Better Auth, sem fluxo de confirmação de e-mail implementado. |
+| `Space` | `id`, `name`, `description`, `capacity`, `pricePerHour`, `pricePeakHour`, `location`, `amenities`, `imageUrl`, `ownerId`, timestamps | Quadra ou espaço de eventos. |
+| `Reservation` | `id`, `spaceId`, `userId`, `date`, `startTime`, `endTime`, `totalPrice`, `status`, `createdAt` | Reserva associada a um espaço e a um usuário. |
+
+Relações:
+
+- **User 1:N Space:** um usuário pode cadastrar vários espaços; `Space.ownerId` referencia `User.id`.
+- **Space 1:N Reservation:** um espaço pode receber várias reservas; `Reservation.spaceId` referencia `Space.id`.
+- **User 1:N Reservation:** um usuário pode criar várias reservas; `Reservation.userId` referencia `User.id`.
+- **User 1:N Session e Account:** o Better Auth associa sessões e credenciais ao usuário.
+
+Preços usam `Decimal(10,2)`, comodidades usam array de strings, a data da reserva usa `DATE` e os horários usam `TIME`. O enum de status contém `PENDING`, `CONFIRMED` e `CANCELLED`; novas reservas válidas são criadas como `CONFIRMED`. A migration inicial utiliza `btree_gist` e uma constraint de exclusão que impede sobreposição de reservas `PENDING` ou `CONFIRMED`. O servidor também serializa a conferência e inserção com uma transação e bloqueio do espaço. Intervalos adjacentes são permitidos.
+
+## Como rodar no computador
+
+Requisitos: Git, Node.js 24, npm e acesso a um banco PostgreSQL/Neon e a um armazenamento Vercel Blob. Para testes que alteram dados, configure um banco e armazenamento próprios de desenvolvimento.
+
+1. Clone o repositório e entre na pasta:
+
+```bash
+git clone https://github.com/henrique2026tiago-design/hubespacos.git
+cd hubespacos
+```
+
+2. Copie `.env.example` para `.env`. No terminal do Windows (CMD):
+
+```bat
+copy .env.example .env
+```
+
+No PowerShell, use `Copy-Item .env.example .env`. Preencha as variáveis somente no arquivo local:
+
+| Variável | Configuração |
+| --- | --- |
+| `DATABASE_URL` | URL pooled do banco Neon, usada pela aplicação. |
+| `DATABASE_URL_UNPOOLED` | URL direta do banco Neon, usada pelas migrations. |
+| `BETTER_AUTH_SECRET` | Segredo gerado com `openssl rand -base64 32`; no Windows, o comando pode ser executado no Git Bash. |
+| `BETTER_AUTH_URL` | Localmente: `http://localhost:3000`. Em produção: `https://hubespacos.vercel.app`. |
+| `BLOB_READ_WRITE_TOKEN` | Token privado do armazenamento Vercel Blob. |
+| `SEED_OWNER_EMAIL` | E-mail exclusivo da conta de demonstração, necessário apenas para executar o seed. |
+| `SEED_OWNER_PASSWORD` | Senha da conta de demonstração, de 12 a 128 caracteres, necessária apenas para executar o seed. |
+| `SHADOW_DATABASE_URL` | Opcional, banco separado para desenvolvimento de novas migrations com `prisma migrate dev`. |
+
+O `.env.example` contém chaves sem valores. O `.gitignore` exclui arquivos `.env`, dependências, cliente Prisma gerado e fotografias locais do seed. Não publique credenciais no GitHub. Na Vercel, configure as cinco variáveis principais no ambiente de produção.
+
+3. Instale as dependências, valide o schema e aplique as migrations:
 
 ```bash
 npm ci
 npm run db:validate
 npm run db:deploy
-npm run dev
 ```
 
-Abra http://localhost:3000. O catálogo lê o banco a cada requisição; é necessário ter o Neon configurado.
-
-Para executar o seed pela primeira vez, coloque as oito fotos JPEG em `prisma/seedImages/` com os nomes definidos em `prisma/seed.ts`. Configure `SEED_OWNER_EMAIL`, `SEED_OWNER_PASSWORD` e o token Blob. O e-mail deve ser exclusivo da conta de demonstração; não precisa ser o e-mail da Vercel.
+4. Se estiver usando um banco novo e quiser os oito registros de demonstração, coloque fotografias JPEG autorizadas em `prisma/seedImages/`, com os nomes: `01Society.jpg`, `02QuadraCoberta.jpg`, `03BeachTennis.jpg`, `04Tenis.jpg`, `05Salao.jpg`, `06Chacara.jpg`, `07Auditorio.jpg` e `08Estudio.jpg`. Essas fotografias não são incluídas no repositório. Configure as variáveis de seed e execute:
 
 ```bash
 npm run db:seed
 ```
 
-Se os oito espaços já foram inseridos, não é necessário repetir o seed nesta etapa. A aplicação não popula nem altera o banco automaticamente ao abrir o catálogo.
+Não é necessário repetir o seed em um banco que já contém os registros. Também é possível começar com o catálogo vazio, criar uma conta e cadastrar espaços pela interface.
 
-## Variáveis de ambiente
+5. Inicie o servidor local:
 
-| Variável              | Finalidade                                                 |
-| --------------------- | ---------------------------------------------------------- |
-| DATABASE_URL          | Conexão pooled do Neon para a aplicação e o seed           |
-| DATABASE_URL_UNPOOLED | Conexão direta do Neon para migrations                     |
-| BETTER_AUTH_SECRET    | Segredo privado, gerado com `openssl rand -base64 32`      |
-| BETTER_AUTH_URL       | Origem do aplicativo; localmente http://localhost:3000     |
-| BLOB_READ_WRITE_TOKEN | Token privado do armazenamento Blob                        |
-| SEED_OWNER_EMAIL      | E-mail exclusivo do proprietário dos dados de demonstração |
-| SEED_OWNER_PASSWORD   | Senha de demonstração com 12 a 128 caracteres              |
-| SHADOW_DATABASE_URL   | Opcional, banco separado somente para migrate dev          |
+```bash
+npm run dev
+```
 
-Na Vercel, cadastrar as cinco variáveis principais com valores reais. As variáveis de seed só são necessárias ao executar o seed. Usar uma URL de produção no Better Auth no ambiente de produção.
-
-## Páginas para testar
-
-| Caminho                           | Resultado esperado                                               |
-| --------------------------------- | ---------------------------------------------------------------- |
-| /                                 | Oito espaços, após o seed                                        |
-| /?busca=society                   | Arena Caparaó Society                                            |
-| /?busca=coberta                   | Espaços cuja descrição ou nome contém “coberta”                  |
-| /?busca=naoexiste123              | “Nenhum espaço encontrado”                                       |
-| /?ordem=menorPreco                | Estúdio Movimento primeiro                                       |
-| /?ordem=maiorCapacidade           | Salão Jardim dos Ipês primeiro                                   |
-| /espacos/seed-space-arena-society | Foto, descrição, comodidades, capacidade e dois valores por hora |
-| /espacos/inexistente              | Página de espaço não encontrado                                  |
-| /?ordem=invalida                  | Erro amigável de validação dos filtros                           |
-
-O formulário usa GET e mantém a busca na URL. A consulta é feita no PostgreSQL, com parâmetros tratados pelo Prisma; não há lista de demonstração embutida na página. Busca por nome, descrição e endereço, sem distinção entre maiúsculas e minúsculas. A busca não normaliza acentos.
-
-## Verificação
+Abra http://localhost:3000. Para verificar a compilação de produção:
 
 ```bash
 npm run lint
@@ -88,63 +134,29 @@ npm run build
 npm run start
 ```
 
-O build mantém exatamente `prisma generate && prisma migrate deploy && next build`. O postinstall mantém `prisma generate`.
+Pare o servidor de desenvolvimento antes de usar `npm run start` na mesma porta. O script de build é exatamente `prisma generate && prisma migrate deploy && next build`; o `postinstall` executa `prisma generate`. O build aplica migrations no banco configurado.
 
-Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md) e [docs/ETAPA4.md](docs/ETAPA4.md) e [docs/ETAPA5.md](docs/ETAPA5.md).
+**Ajuste de dependência durante o desenvolvimento:** `@vercel/blob@^0.28.0` produziu o erro `ETARGET` na instalação. Em `package.json`, foi substituído por `@vercel/blob: "0.27.3"`. Essa diferença em relação à versão inicialmente solicitada está registrada para avaliação; Prisma permanece fixado em 7.10.0 e Better Auth em 1.7.6.
 
-## Segurança e decisões de implementação
+## Como usamos a IA
 
-- Prisma e consultas ao banco são módulos restritos ao servidor.
-- A projeção pública não inclui e-mail, proprietário, sessões ou contas.
-- Filtros são validados no servidor com Zod, incluindo limite de 120 caracteres.
-- Imagens externas são aceitas somente de subdomínios públicos do Vercel Blob. Falhas exibem um estado acessível.
-- As fontes não dependem de uma requisição ao Google durante o build.
-- O CRUD verifica proprietário no servidor; reservas são conferidas em transação e protegidas contra sobreposição no PostgreSQL.
-- Credenciais, cliente Prisma gerado e fotografias locais do seed ficam fora do versionamento. `.env.example` contém apenas chaves vazias.
+- **IA usada:** ChatGPT/Codex para apoiar a modelagem, implementação incremental, depuração, revisão e documentação. As decisões e o código devem ser compreendidos pelos integrantes.
 
-## Uso de IA
+- **Os 3 pedidos (prompts) que mais ajudaram:**
+  1. Pedido inicial de construção incremental do HubEspaços: definir `Space` e `Reservation`, tabelas Better Auth, PostgreSQL/Neon, Prisma 7.10.0, seed de oito espaços, variáveis de ambiente e scripts exigidos pelo trabalho.
+  2. “A cada vez que eu pesquiso surge um campo de busca novo”: investigar a duplicação do formulário e corrigir a renderização nas buscas consecutivas.
+  3. Relato de falha no cadastro: a foto JPG, PNG ou WebP era recusada com “Não foi possível ler essa foto” e desaparecia após o envio; revisar o decodificador e preservar o arquivo durante a correção dos dados.
 
-Foi usado Codex/ChatGPT para estruturar as etapas, gerar código e auxiliar na depuração. O código precisa ser compreendido e revisado pelos integrantes.
+- **Um erro da IA que percebemos e como corrigimos (arquivo e o que mudou):**
+  O catálogo gerado inicialmente reutilizava a mesma chave React no formulário de busca e no `Suspense` dos resultados. Ao pesquisar várias vezes, apareciam novos campos de busca. Em `src/app/page.tsx`, foram usadas chaves distintas para o formulário e para os resultados, evitando a colisão entre componentes irmãos. A correção foi conferida com buscas consecutivas, mantendo apenas um campo.
 
-Erros e ajustes registrados:
+  Outra correção específica ocorreu em `src/lib/fotoEspaco.ts`: `failOn: "warning"` recusava um JPEG decodificável que emitia avisos recuperáveis. Foi ajustado para `failOn: "error"`, mantendo a rejeição de arquivos truncados, formatos divergentes, animações e fotos acima de 2 MB. Em `src/components/formularioEspaco.tsx`, o `onReset` passou a chamar `evento.preventDefault()` para preservar o arquivo e a prévia quando a Server Action retorna erro. A reprodução utilizou uma imagem com aviso; a fotografia específica inicialmente relatada não foi fornecida à IA. Detalhes: `docs/CORRECAO_FOTO.md`.
 
-1. A versão Blob 0.28.0 levou a ETARGET no npm. Foi substituída por 0.27.3.
-2. O projeto recebido possuía Zod apenas como dependência transitiva. A etapa 2 declara diretamente a versão 3 compatível com o regulamento.
-3. As APIs do Next.js 16.3 foram conferidas na documentação da versão instalada: `searchParams` e `params` são assíncronos; a tela de erro usa `retry`.
-4. O catálogo inicial do create-next-app foi substituído por consultas reais ao Prisma e conteúdo responsivo.
-
-## Deploy on Vercel
-
-A implantação será verificada em uma etapa posterior. Importar o repositório, configurar as variáveis de ambiente e confirmar acesso público sem Deployment Protection. Não registrar uma URL de produção como funcional antes de testá-la.
-
-## Pendências para a entrega final
-
-Integrantes e modelo oficial do README; confirmação dos fluxos na produção e upload no Blob da conta; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
-
-## Autenticação — Etapa 3
-
-Rotas: `/cadastro`, `/login`, `/conta` e `/api/auth/[...all]`. A página `/conta` verifica a sessão no servidor; usuários sem sessão são redirecionados para `/login`. Cadastro e login normalizam o e-mail e validam entradas no servidor com Zod. Use uma senha de 12 a 128 caracteres. Não há envio de e-mail ou recuperação de senha nesta etapa.
-
-A integração usa Better Auth 1.7.6, sem atualizar a stack. Foram testados cadastro, login, logout, hash da senha, cookie HttpOnly, persistência, expiração e rejeição de origem externa, em banco de teste isolado. O teste inicial que esperava HTTP 307 foi ajustado para verificar o redirecionamento real do Next.js em respostas de streaming.
-
-A duplicação de formulário da etapa 2 foi corrigida com chaves distintas no React; buscas consecutivas passaram nos testes. Os detalhes e o registro de IA estão em `docs/ETAPA3.md`.
-
-## Gerenciamento de espaços — Etapa 4
-
-A conta possui atalhos para `/meus-espacos` e `/espacos/novo`. Cada usuário vê seus espaços e pode criar, editar e excluir os próprios registros com Server Actions. A edição está em `/espacos/[id]/editar`; sessão e proprietário são conferidos no servidor, tanto na leitura quanto na mutação.
-
-O formulário valida dados com Zod e aceita fotografias JPG, PNG e WebP de até 2 MB. Sharp decodifica e otimiza a imagem antes do envio ao Blob. Upload com falha não cria registro; a limpeza de fotos substituídas ou sem referência é limitada ao armazenamento e prefixo do proprietário. Espaços com reservas vinculadas não podem ser excluídos.
-
-Os testes de CRUD, autorização, validação, falhas e responsividade constam em `docs/validacao-etapa4.json`. Foram executados em PostgreSQL isolado e com a API Blob simulada no teste. Confirme o upload real na conta Vercel seguindo `docs/ETAPA4.md`. Não é necessário executar nova migration nem repetir o seed.
-
-O registro de IA desta etapa inclui a correção do limite multipart, da prévia React e da validação decimal, descritas em `docs/ETAPA4.md`.
-
-## Reservas e agenda — Etapa 5
-
-O detalhe público de cada espaço apresenta disponibilidade consultada no banco. A agenda funciona das 08h às 23h, com tarifa de pico das 18h às 22h, datas até 90 dias à frente e intervalos de horas inteiras. A atualização ocorre a cada 15 segundos quando a aba está visível; o servidor confere novamente ao confirmar.
-
-`/minhas-reservas` lista somente reservas do usuário autenticado. `/reservas-recebidas` lista reservas vinculadas aos espaços do proprietário. Ambas exigem sessão no servidor. A API `/api/espacos/[id]/disponibilidade?data=AAAA-MM-DD` não retorna identidade de clientes.
-
-O preço é recalculado por hora usando centavos inteiros, e a gravação usa Decimal. A transação bloqueia o Space, confere conflitos e insere a reserva. A constraint de exclusão da migration inicial impede sobreposição de reservas ativas. Intervalos adjacentes são permitidos. Cancelamento gratuito pelo sistema exige pelo menos 24 horas de antecedência, preserva o registro e libera o horário; condições posteriores são acertadas diretamente com o responsável. Não há processamento de pagamentos ou taxas.
-
-Procedimentos, regras e uso de IA: `docs/ETAPA5.md`. Resultados em banco isolado: `docs/validacao-etapa5.json`. Não é necessário executar nova migration nem repetir o seed.
+- **O que aprendemos:**
+  - Validar os dados no servidor e obter a identidade pela sessão, sem confiar em campos enviados pelo navegador.
+  - Conferir a propriedade dos registros em cada operação de edição ou exclusão.
+  - Usar `Decimal` e centavos inteiros para calcular preços, incluindo intervalos com tarifas diferentes.
+  - Impedir reservas concorrentes com transação e restrição no banco, além de mostrar disponibilidade na interface.
+  - Verificar o conteúdo da fotografia, não apenas a extensão, e preservar os dados do formulário após erros.
+  - Manter migrations, lockfile, commits reais e variáveis privadas; testar localmente e conferir a versão efetivamente publicada.
+  - Distinguir testes em ambiente isolado de verificações realizadas em produção, sem tratar código gerado por IA como automaticamente correto.
