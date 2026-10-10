@@ -1,0 +1,16 @@
+{
+  "build": true,
+  "registros": 8,
+  "buscaFormulario": true,
+  "buscaCoberta": true,
+  "ordenacao": true,
+  "validacao": true,
+  "detalhe": true,
+  "naoEncontrado": true,
+  "larguras": [375, 1440],
+  "semOverflow": true,
+  "recuperacaoErro": true,
+  "errosJS": [],
+  "banco": "PGlite isolado, não Neon de produção",
+  "fotografias": "JPEGs fornecidos no projeto; interceptação apenas no QA externo"
+}
