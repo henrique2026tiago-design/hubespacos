@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String
+  email         String        @unique
+  emailVerified Boolean       @default(false)
+  image         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  spaces        Space[]
+  reservations  Reservation[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @default(now()) @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@index([identifier])
+  @@index([expiresAt])
+  @@map("verification")
+}
+
+model Space {
+  id            String        @id @default(cuid())
+  name          String        @db.VarChar(120)
+  description   String        @db.Text
+  capacity      Int
+  // Decimal evita imprecisão de ponto flutuante em valores monetários.
+  pricePerHour  Decimal       @db.Decimal(10, 2)
+  pricePeakHour Decimal       @db.Decimal(10, 2)
+  location      String        @db.VarChar(240)
+  amenities     String[]      @default([])
+  imageUrl      String        @db.Text
+  ownerId       String
+  owner         User          @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  reservations  Reservation[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([ownerId, createdAt])
+  @@index([name])
+}
+
+model Reservation {
+  id         String            @id @default(cuid())
+  spaceId    String
+  userId     String
+  // Data civil e horários locais; intervalos [início, fim), no mesmo dia.
+  date       DateTime          @db.Date
+  startTime  DateTime          @db.Time(0)
+  endTime    DateTime          @db.Time(0)
+  totalPrice Decimal           @db.Decimal(10, 2)
+  status     ReservationStatus @default(PENDING)
+  createdAt  DateTime          @default(now())
+  space      Space             @relation(fields: [spaceId], references: [id], onDelete: Restrict)
+  user       User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([spaceId, date, status, startTime])
+  @@index([userId, createdAt])
+}
