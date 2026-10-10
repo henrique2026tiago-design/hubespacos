@@ -16,6 +16,14 @@ export default async function Conta() {
         Você está conectado. Seu próximo encontro pode começar por um novo
         espaço.
       </p>
+      <div className="atalhosConta">
+        <Link href="/meus-espacos" className="botao botaoVerde">
+          Meus espaços <Icone nome="seta" />
+        </Link>
+        <Link href="/espacos/novo" className="botao botaoNeutro">
+          Cadastrar espaço
+        </Link>
+      </div>
       <div className="gradeConta">
         <section className="dadosConta" aria-labelledby="tituloDadosConta">
           <h2 id="tituloDadosConta">Seus dados</h2>

@@ -1768,3 +1768,344 @@ h3 {
     max-width: 160px;
   }
 }
+
+/* Gerenciamento: formulários legíveis e controles que se acomodam em 375px. */
+.paginaGerenciamento {
+  padding-block: 38px 64px;
+}
+.cabecalhoGerenciamento {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 30px 0;
+}
+.cabecalhoGerenciamento > div {
+  min-width: 0;
+}
+.cabecalhoGerenciamento h1 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+.cabecalhoGerenciamento p:not(.sobretitulo) {
+  color: var(--muted);
+}
+.cabecalhoGerenciamento > .botao {
+  flex-shrink: 0;
+}
+.formularioEspaco,
+.exclusaoEspaco {
+  max-width: 800px;
+}
+.formularioEspaco fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.blocoFormularioEspaco {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  min-width: 0;
+}
+.tituloBlocoEspaco {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 26px;
+}
+.tituloBlocoEspaco > span {
+  background: #edf3ef;
+  color: var(--verde);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px;
+  border-radius: 8px;
+}
+.tituloBlocoEspaco h2 {
+  font-size: 21px;
+  font-weight: 700;
+}
+.tituloBlocoEspaco p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.campoEspaco {
+  margin-bottom: 18px;
+  min-width: 0;
+}
+.campoEspaco:last-child {
+  margin-bottom: 0;
+}
+.campoEspaco label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.campoEspaco input,
+.campoEspaco textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  background: white;
+  color: var(--concreto);
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+}
+.campoEspaco textarea {
+  resize: vertical;
+  line-height: 1.65;
+}
+.campoEspaco input[type="file"] {
+  padding: 12px;
+  font-size: 12px;
+}
+.campoEspaco input::file-selector-button {
+  border: 0;
+  background: #edf3ef;
+  color: var(--verde);
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.campoEspaco [aria-invalid="true"] {
+  border-color: #c53030;
+}
+.campoEspaco input:focus-visible,
+.campoEspaco textarea:focus-visible {
+  outline: 2px solid var(--verde);
+  outline-offset: 2px;
+}
+.duplaCamposEspaco {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+.ajudaCampoEspaco,
+.dicaEspaco,
+.notaFormularioEspaco {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+.duplaCamposEspaco + .ajudaCampoEspaco {
+  margin: -4px 0 22px;
+}
+.dicaEspaco {
+  align-self: center;
+  margin: 0;
+}
+.erroCampoEspaco {
+  font-size: 12px;
+  color: #b02a2a;
+  margin-top: 7px;
+}
+.previewFotoEspaco {
+  height: 240px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background: #edf3ef;
+}
+.previewFotoEspaco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.acoesFormularioEspaco,
+.acoesExclusao,
+.atalhosConta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.atalhosConta {
+  margin: 24px 0 30px;
+}
+.botaoNeutro {
+  background: white;
+  color: var(--concreto);
+  border: 1px solid #cbd5df;
+}
+.botaoNeutro:hover {
+  background: #edf2f7;
+}
+.botaoPerigo {
+  background: #fff4f4;
+  border: 1px solid #e7bcbc;
+  color: #a32929;
+}
+.botaoPerigo:hover {
+  background: #fde5e5;
+}
+.alertaEspaco {
+  padding: 14px 16px;
+  background: #fff4f4;
+  border: 1px solid #e7bcbc;
+  color: #a32929;
+  border-radius: 8px;
+  font-size: 13px;
+  margin: 0 0 18px;
+}
+.sucessoEspaco {
+  background: #edf7ef;
+  border: 1px solid #cee5d4;
+  color: #276749;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 26px;
+}
+.exclusaoEspaco {
+  border-top: 1px solid var(--borda);
+  margin-top: 48px;
+  padding-top: 28px;
+}
+.exclusaoEspaco h2 {
+  font-size: 21px;
+  font-weight: 700;
+}
+.exclusaoEspaco > p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 18px;
+}
+.confirmacaoExclusao > p {
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+.confirmacaoExclusao label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.confirmacaoExclusao input {
+  margin-top: 4px;
+  flex-shrink: 0;
+  accent-color: var(--verde);
+}
+.gradeMeusEspacos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.itemMeuEspaco {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.itemMeuEspaco .cartaoEspaco {
+  flex: 1;
+}
+.gerenciarEspaco {
+  width: 100%;
+  justify-content: center;
+}
+.vazioMeusEspacos {
+  border: 1px dashed #b9cec2;
+  background: #f0f6f2;
+  padding: 48px;
+  border-radius: 16px;
+  max-width: 750px;
+}
+.vazioMeusEspacos h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 16px 0;
+}
+.vazioMeusEspacos > p:not(.sobretitulo) {
+  max-width: 470px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+@media (max-width: 1000px) {
+  .gradeMeusEspacos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .paginaGerenciamento {
+    padding-block: 28px 44px;
+  }
+  .cabecalhoGerenciamento {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .cabecalhoGerenciamento h1 {
+    font-size: 29px;
+    letter-spacing: -0.8px;
+  }
+  .cabecalhoGerenciamento p:not(.sobretitulo) {
+    font-size: 13px;
+  }
+  .blocoFormularioEspaco {
+    padding: 22px 18px;
+  }
+  .tituloBlocoEspaco {
+    gap: 12px;
+  }
+  .tituloBlocoEspaco h2 {
+    font-size: 19px;
+  }
+  .duplaCamposEspaco {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .dicaEspaco {
+    margin: -8px 0 22px;
+  }
+  .campoEspaco input,
+  .campoEspaco textarea {
+    font-size: 16px;
+  }
+  .campoEspaco input[type="file"] {
+    font-size: 12px;
+  }
+  .acoesFormularioEspaco .botao,
+  .acoesExclusao .botao {
+    flex: 1;
+    justify-content: center;
+  }
+  .previewFotoEspaco {
+    height: 180px;
+  }
+  .gradeMeusEspacos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vazioMeusEspacos {
+    padding: 28px 22px;
+  }
+  .vazioMeusEspacos h2 {
+    font-size: 25px;
+  }
+}
+
+/* Conteúdo cadastrado pelo usuário também pode conter palavras longas. */
+.conteudoCartao h3,
+.descricaoCartao,
+.comodidadesCartao li,
+.tituloDetalhe h1,
+.descricaoDetalhe,
+.localDetalhe,
+.listaComodidades li {
+  overflow-wrap: anywhere;
+}
+.comodidadesCartao li {
+  max-width: 100%;
+}

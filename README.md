@@ -15,9 +15,10 @@ Repositório: https://github.com/henrique2026tiago-design/hubespacos
 - Etapa 1: schema, migration, integração Prisma/PostgreSQL e seed de oito espaços com upload validado de JPEG no Blob.
 - Etapa 2: catálogo público, busca pela URL no banco, ordenação, detalhes, mensagens de erro, carregamento e interface responsiva.
 - Etapa 3: cadastro, login e logout com Better Auth, sessão persistente e página de conta protegida.
-- Próximas etapas: CRUD com autorização no servidor, upload pelo formulário, reservas e implantação pública na Vercel.
+- Etapa 4: CRUD completo de espaços, upload de fotos pelo formulário e autorização de proprietário no servidor.
+- Próximas etapas: reservas e implantação pública na Vercel.
 
-As tabelas de autenticação e reservas já existem. A autenticação está implementada. CRUD e reservas ainda estão pendentes. Esta entrega não representa o atendimento completo dos 15 pontos.
+As tabelas de autenticação e reservas já existem. A autenticação está implementada. O CRUD de espaços está implementado; reservas pela interface ainda estão pendentes. Esta entrega não representa o atendimento completo dos 15 pontos.
 
 ## Stack
 
@@ -88,7 +89,7 @@ npm run start
 
 O build mantém exatamente `prisma generate && prisma migrate deploy && next build`. O postinstall mantém `prisma generate`.
 
-Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md).
+Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md) e [docs/ETAPA4.md](docs/ETAPA4.md).
 
 ## Segurança e decisões de implementação
 
@@ -97,7 +98,7 @@ Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem 
 - Filtros são validados no servidor com Zod, incluindo limite de 120 caracteres.
 - Imagens externas são aceitas somente de subdomínios públicos do Vercel Blob. Falhas exibem um estado acessível.
 - As fontes não dependem de uma requisição ao Google durante o build.
-- O CRUD de espaços e reservas será acrescentado nas próximas etapas.
+- O CRUD de espaços verifica proprietário no servidor; reservas serão acrescentadas na próxima etapa.
 - Credenciais, cliente Prisma gerado e fotografias locais do seed ficam fora do versionamento. `.env.example` contém apenas chaves vazias.
 
 ## Uso de IA
@@ -117,7 +118,7 @@ A implantação será verificada em uma etapa posterior. Importar o repositório
 
 ## Pendências para a entrega final
 
-Integrantes e modelo oficial do README; CRUD completo; upload pelo formulário; reservas e conflitos; testes de autorização; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
+Integrantes e modelo oficial do README; reservas pela interface e testes de conflitos; confirmação de upload no Blob da conta; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
 
 ## Autenticação — Etapa 3
 
@@ -126,3 +127,13 @@ Rotas: `/cadastro`, `/login`, `/conta` e `/api/auth/[...all]`. A página `/conta
 A integração usa Better Auth 1.7.6, sem atualizar a stack. Foram testados cadastro, login, logout, hash da senha, cookie HttpOnly, persistência, expiração e rejeição de origem externa, em banco de teste isolado. O teste inicial que esperava HTTP 307 foi ajustado para verificar o redirecionamento real do Next.js em respostas de streaming.
 
 A duplicação de formulário da etapa 2 foi corrigida com chaves distintas no React; buscas consecutivas passaram nos testes. Os detalhes e o registro de IA estão em `docs/ETAPA3.md`.
+
+## Gerenciamento de espaços — Etapa 4
+
+A conta possui atalhos para `/meus-espacos` e `/espacos/novo`. Cada usuário vê seus espaços e pode criar, editar e excluir os próprios registros com Server Actions. A edição está em `/espacos/[id]/editar`; sessão e proprietário são conferidos no servidor, tanto na leitura quanto na mutação.
+
+O formulário valida dados com Zod e aceita fotografias JPG, PNG e WebP de até 2 MB. Sharp decodifica e otimiza a imagem antes do envio ao Blob. Upload com falha não cria registro; a limpeza de fotos substituídas ou sem referência é limitada ao armazenamento e prefixo do proprietário. Espaços com reservas vinculadas não podem ser excluídos.
+
+Os testes de CRUD, autorização, validação, falhas e responsividade constam em `docs/validacao-etapa4.json`. Foram executados em PostgreSQL isolado e com a API Blob simulada no teste. Confirme o upload real na conta Vercel seguindo `docs/ETAPA4.md`. Não é necessário executar nova migration nem repetir o seed.
+
+O registro de IA desta etapa inclui a correção do limite multipart, da prévia React e da validação decimal, descritas em `docs/ETAPA4.md`.
