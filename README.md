@@ -16,9 +16,10 @@ Repositório: https://github.com/henrique2026tiago-design/hubespacos
 - Etapa 2: catálogo público, busca pela URL no banco, ordenação, detalhes, mensagens de erro, carregamento e interface responsiva.
 - Etapa 3: cadastro, login e logout com Better Auth, sessão persistente e página de conta protegida.
 - Etapa 4: CRUD completo de espaços, upload de fotos pelo formulário e autorização de proprietário no servidor.
-- Próximas etapas: reservas e implantação pública na Vercel.
+- Etapa 5: reservas com agenda, tarifas por hora, proteção de conflitos, listagens privadas e cancelamento no prazo.
+- Próximas etapas: implantação pública na Vercel e documentação final.
 
-As tabelas de autenticação e reservas já existem. A autenticação está implementada. O CRUD de espaços está implementado; reservas pela interface ainda estão pendentes. Esta entrega não representa o atendimento completo dos 15 pontos.
+As tabelas de autenticação e reservas já existem. A autenticação está implementada. O CRUD de espaços e a criação/listagem de reservas estão implementados. A implantação pública e a documentação final ainda precisam ser conferidas. Esta entrega não representa o atendimento completo dos 15 pontos.
 
 ## Stack
 
@@ -89,7 +90,7 @@ npm run start
 
 O build mantém exatamente `prisma generate && prisma migrate deploy && next build`. O postinstall mantém `prisma generate`.
 
-Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md) e [docs/ETAPA4.md](docs/ETAPA4.md).
+Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md) e [docs/ETAPA4.md](docs/ETAPA4.md) e [docs/ETAPA5.md](docs/ETAPA5.md).
 
 ## Segurança e decisões de implementação
 
@@ -98,7 +99,7 @@ Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem 
 - Filtros são validados no servidor com Zod, incluindo limite de 120 caracteres.
 - Imagens externas são aceitas somente de subdomínios públicos do Vercel Blob. Falhas exibem um estado acessível.
 - As fontes não dependem de uma requisição ao Google durante o build.
-- O CRUD de espaços verifica proprietário no servidor; reservas serão acrescentadas na próxima etapa.
+- O CRUD verifica proprietário no servidor; reservas são conferidas em transação e protegidas contra sobreposição no PostgreSQL.
 - Credenciais, cliente Prisma gerado e fotografias locais do seed ficam fora do versionamento. `.env.example` contém apenas chaves vazias.
 
 ## Uso de IA
@@ -118,7 +119,7 @@ A implantação será verificada em uma etapa posterior. Importar o repositório
 
 ## Pendências para a entrega final
 
-Integrantes e modelo oficial do README; reservas pela interface e testes de conflitos; confirmação de upload no Blob da conta; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
+Integrantes e modelo oficial do README; confirmação dos fluxos na produção e upload no Blob da conta; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
 
 ## Autenticação — Etapa 3
 
@@ -137,3 +138,13 @@ O formulário valida dados com Zod e aceita fotografias JPG, PNG e WebP de até 
 Os testes de CRUD, autorização, validação, falhas e responsividade constam em `docs/validacao-etapa4.json`. Foram executados em PostgreSQL isolado e com a API Blob simulada no teste. Confirme o upload real na conta Vercel seguindo `docs/ETAPA4.md`. Não é necessário executar nova migration nem repetir o seed.
 
 O registro de IA desta etapa inclui a correção do limite multipart, da prévia React e da validação decimal, descritas em `docs/ETAPA4.md`.
+
+## Reservas e agenda — Etapa 5
+
+O detalhe público de cada espaço apresenta disponibilidade consultada no banco. A agenda funciona das 08h às 23h, com tarifa de pico das 18h às 22h, datas até 90 dias à frente e intervalos de horas inteiras. A atualização ocorre a cada 15 segundos quando a aba está visível; o servidor confere novamente ao confirmar.
+
+`/minhas-reservas` lista somente reservas do usuário autenticado. `/reservas-recebidas` lista reservas vinculadas aos espaços do proprietário. Ambas exigem sessão no servidor. A API `/api/espacos/[id]/disponibilidade?data=AAAA-MM-DD` não retorna identidade de clientes.
+
+O preço é recalculado por hora usando centavos inteiros, e a gravação usa Decimal. A transação bloqueia o Space, confere conflitos e insere a reserva. A constraint de exclusão da migration inicial impede sobreposição de reservas ativas. Intervalos adjacentes são permitidos. Cancelamento gratuito pelo sistema exige pelo menos 24 horas de antecedência, preserva o registro e libera o horário; condições posteriores são acertadas diretamente com o responsável. Não há processamento de pagamentos ou taxas.
+
+Procedimentos, regras e uso de IA: `docs/ETAPA5.md`. Resultados em banco isolado: `docs/validacao-etapa5.json`. Não é necessário executar nova migration nem repetir o seed.

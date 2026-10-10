@@ -48,6 +48,12 @@ export default async function EditarEspaco({
           imageUrl: espaco.imageUrl,
         }}
       />
+      <Link
+        href={`/reservas-recebidas?espaco=${espaco.id}`}
+        className="botao botaoNeutro"
+      >
+        Ver reservas deste espaço
+      </Link>
       <ExcluirEspaco id={espaco.id} nome={espaco.name} />
     </main>
   );

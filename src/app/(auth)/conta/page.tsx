@@ -17,6 +17,12 @@ export default async function Conta() {
         espaço.
       </p>
       <div className="atalhosConta">
+        <Link href="/minhas-reservas" className="botao botaoNeutro">
+          Minhas reservas
+        </Link>
+        <Link href="/reservas-recebidas" className="botao botaoNeutro">
+          Reservas recebidas
+        </Link>
         <Link href="/meus-espacos" className="botao botaoVerde">
           Meus espaços <Icone nome="seta" />
         </Link>

@@ -8,6 +8,9 @@ import {
 } from "@/lib/catalogo";
 import { Icone } from "@/components/icone";
 import { ImagemEspaco } from "@/components/imagemEspaco";
+import { AgendaEspaco } from "@/components/agendaEspaco";
+import { obterSessao } from "@/lib/sessao";
+import { limiteDatas } from "@/lib/agenda";
 export const runtime = "nodejs";
 export default async function Detalhe({
   params,
@@ -19,6 +22,7 @@ export default async function Detalhe({
   const { id } = await params;
   const espaco = await consultarEspaco(id);
   if (!espaco) notFound();
+  const sessao = await obterSessao();
   return (
     <main id="conteudo" className="container paginaDetalhe">
       <Link href="/#catalogo" className="voltar">
@@ -63,27 +67,34 @@ export default async function Detalhe({
             </ul>
           </section>
         </div>
-        <aside className="quadroValores" aria-labelledby="tituloValores">
-          <p className="sobretitulo">PLANEJE COM CLAREZA</p>
-          <h2 id="tituloValores">Valores por hora</h2>
-          <dl>
-            <div>
-              <dt>Fora de pico</dt>
-              <dd>{formatarPreco(espaco.pricePerHour)}</dd>
-            </div>
-            <div>
-              <dt>Horário de pico</dt>
-              <dd>{formatarPreco(espaco.pricePeakHour)}</dd>
-            </div>
-          </dl>
-          <p>
-            Valores de referência por hora. Consulte a descrição para os
-            horários de pico e as condições de cancelamento.
-          </p>
-          <Link href="/#catalogo" className="botao botaoVerde">
-            Comparar outros espaços <Icone nome="seta" />
-          </Link>
-        </aside>
+        <div className="lateralDetalhe">
+          <aside className="quadroValores" aria-labelledby="tituloValores">
+            <p className="sobretitulo">PLANEJE COM CLAREZA</p>
+            <h2 id="tituloValores">Valores por hora</h2>
+            <dl>
+              <div>
+                <dt>Fora de pico</dt>
+                <dd>{formatarPreco(espaco.pricePerHour)}</dd>
+              </div>
+              <div>
+                <dt>Horário de pico</dt>
+                <dd>{formatarPreco(espaco.pricePeakHour)}</dd>
+              </div>
+            </dl>
+            <p>
+              Agenda das 08h às 23h. Tarifa de pico das 18h às 22h. Confira as
+              condições de reserva na agenda abaixo.
+            </p>
+            <Link href="/#catalogo" className="botao botaoVerde">
+              Comparar outros espaços <Icone nome="seta" />
+            </Link>
+          </aside>
+          <AgendaEspaco
+            spaceId={espaco.id}
+            autenticado={!!sessao}
+            dataInicial={limiteDatas().minimo}
+          />
+        </div>
       </div>
     </main>
   );

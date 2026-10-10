@@ -2109,3 +2109,310 @@ h3 {
 .comodidadesCartao li {
   max-width: 100%;
 }
+
+/* Agenda e reservas: as vagas e os valores vêm do servidor. */
+.lateralDetalhe {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.lateralDetalhe .quadroValores {
+  position: static;
+}
+.agendaEspaco {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 26px;
+  min-width: 0;
+}
+.agendaEspaco h2 {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 12px 0 8px;
+}
+.introAgenda,
+.ajudaAgenda,
+.notaAgenda {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.rotuloDataAgenda {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+}
+.agendaEspaco input[type="date"],
+.formularioReserva select {
+  border: 1px solid #cbd5df;
+  background: white;
+  color: var(--concreto);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border-radius: 8px;
+  padding: 11px;
+  font-size: 15px;
+}
+.legendaAgenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 9px;
+  margin: 16px 0 12px;
+}
+.legendaAgenda span:first-child {
+  color: var(--verde);
+}
+.legendaAgenda span:nth-child(2) {
+  color: var(--azul);
+}
+.legendaAgenda span:last-child {
+  color: var(--muted);
+}
+.gradeAgenda {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 13px 0;
+}
+.horarioAgenda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #cce0d3;
+  background: #f0f8f3;
+  color: #276749;
+  border-radius: 8px;
+  padding: 10px 3px;
+  min-width: 0;
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+}
+.horarioAgenda strong {
+  font-size: 13px;
+}
+.horarioAgenda span {
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+.horarioPico {
+  background: #eff6fd;
+  border-color: #c7dced;
+  color: var(--azul);
+}
+.horarioAgenda:not(:disabled):hover {
+  border-color: var(--verde);
+  background: #dfeee5;
+}
+.horarioAgenda.horarioSelecionado {
+  background: var(--verde);
+  border-color: var(--verde);
+  color: white;
+}
+.horarioAgenda:disabled {
+  background: #f3f5f6;
+  border: 1px dashed #d7dce1;
+  color: #768090;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.skeletonHorario {
+  height: 58px;
+  border-radius: 8px;
+}
+.atualizarAgenda {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--azul);
+  font-size: 11px;
+  text-align: left;
+}
+.formularioReserva {
+  margin-top: 20px;
+}
+.formularioReserva > label:not(.aceiteReserva) {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.totalReserva {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 20px 0;
+  margin: 8px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.totalReserva span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.totalReserva strong {
+  font-family: "Plus Jakarta Sans Variable", sans-serif;
+  font-size: 22px;
+}
+.politicaReserva {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.politicaReserva strong {
+  color: var(--concreto);
+  font-size: 11px;
+}
+.politicaReserva p {
+  margin-top: 8px;
+}
+.aceiteReserva {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 11px;
+  margin: 18px 0;
+}
+.aceiteReserva input {
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--verde);
+}
+.formularioReserva > .botao {
+  width: 100%;
+  justify-content: center;
+}
+.notaAgenda {
+  margin-top: 12px;
+  font-size: 9px;
+}
+.listaReservas {
+  display: grid;
+  gap: 22px;
+  max-width: 900px;
+}
+.cartaoReserva {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 28px;
+  min-width: 0;
+}
+.tituloCartaoReserva {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tituloCartaoReserva > div {
+  min-width: 0;
+}
+.tituloCartaoReserva h2 {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 10px 0 20px;
+  overflow-wrap: anywhere;
+}
+.tituloCartaoReserva h2 a:hover {
+  color: var(--verde);
+}
+.statusReserva {
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.statusCONFIRMED {
+  color: #276749;
+  background: #edf7ef;
+}
+.statusPENDING {
+  color: #805a1d;
+  background: #fff8e7;
+}
+.statusCANCELLED {
+  color: var(--muted);
+  background: #edf0f3;
+}
+.clienteReserva {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
+.rodapeCartaoReserva {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--borda);
+  padding-top: 18px;
+  margin-bottom: 18px;
+}
+.rodapeCartaoReserva p {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.rodapeCartaoReserva strong {
+  color: var(--concreto);
+  font-size: 20px;
+}
+.linkEspacoReserva {
+  font-size: 12px;
+  color: var(--verde);
+}
+.notaPrazoReserva {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.formularioCancelamento > label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.formularioCancelamento input {
+  margin-top: 4px;
+  accent-color: var(--verde);
+}
+@media (max-width: 640px) {
+  .agendaEspaco {
+    padding: 22px 18px;
+  }
+  .agendaEspaco input[type="date"],
+  .formularioReserva select {
+    font-size: 16px;
+  }
+  .cartaoReserva {
+    padding: 22px 18px;
+  }
+  .tituloCartaoReserva {
+    flex-direction: column;
+    gap: 0;
+  }
+  .statusReserva {
+    margin-bottom: 18px;
+  }
+  .tituloCartaoReserva h2 {
+    font-size: 20px;
+  }
+  .atalhosConta .botao {
+    flex: 1 1 140px;
+    justify-content: center;
+  }
+}
