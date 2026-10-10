@@ -54,8 +54,10 @@ export function FormularioEspaco({ espaco }: { espaco?: EspacoFormulario }) {
     <form
       action={enviar}
       className="formularioEspaco"
-      onReset={() => {
-        definirPreview("");
+      onReset={(evento) => {
+        // A ação retorna erros sem sair da página. Preserve o arquivo e a prévia.
+        // Quando salva, o redirecionamento desmonta este formulário.
+        evento.preventDefault();
       }}
     >
       <fieldset disabled={pendente}>
@@ -89,6 +91,11 @@ export function FormularioEspaco({ espaco }: { espaco?: EspacoFormulario }) {
               placeholder="Descreva o espaço, os horários de pico e a política de cancelamento."
             />
             {erro("description")}
+            <p className="ajudaCampoEspaco">
+              A agenda do HubEspaços funciona das 08h às 23h, com pico das 18h
+              às 22h. Cancelamento gratuito pelo sistema até 24h antes; após
+              esse prazo, condições diretamente com o responsável.
+            </p>
           </div>
           <div className="campoEspaco">
             <label htmlFor="location">Endereço</label>
@@ -244,7 +251,7 @@ export function FormularioEspaco({ espaco }: { espaco?: EspacoFormulario }) {
       {estado.mensagem && (
         <div className="alertaEspaco" role="alert">
           {estado.mensagem}{" "}
-          {estado.erros?.foto && "Selecione novamente a foto antes de enviar."}
+          {estado.erros?.foto && "Confira a foto ou selecione outro arquivo."}
         </div>
       )}
       <div className="acoesFormularioEspaco">

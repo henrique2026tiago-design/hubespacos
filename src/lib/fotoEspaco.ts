@@ -27,7 +27,8 @@ export async function prepararFoto(
     const bytes = Buffer.from(await arquivo.arrayBuffer());
     const imagem = sharp(bytes, {
       limitInputPixels: 40_000_000,
-      failOn: "warning",
+      // Aceita avisos recuperáveis; falhas de decodificação continuam bloqueadas.
+      failOn: "error",
     });
     const info = await imagem.metadata();
     if (
@@ -49,6 +50,11 @@ export async function prepararFoto(
       .toBuffer();
   } catch (erro) {
     if (erro instanceof ErroFoto) throw erro;
+    // Registra só o diagnóstico do decodificador, sem o arquivo ou credenciais.
+    console.error(
+      "Falha na decodificação da foto:",
+      erro instanceof Error ? erro.message.slice(0, 300) : "Erro desconhecido",
+    );
     throw new ErroFoto(
       "Não foi possível ler essa foto. Selecione outro arquivo JPG, PNG ou WebP.",
     );
