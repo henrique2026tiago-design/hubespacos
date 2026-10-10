@@ -14,9 +14,10 @@ Repositório: https://github.com/henrique2026tiago-design/hubespacos
 
 - Etapa 1: schema, migration, integração Prisma/PostgreSQL e seed de oito espaços com upload validado de JPEG no Blob.
 - Etapa 2: catálogo público, busca pela URL no banco, ordenação, detalhes, mensagens de erro, carregamento e interface responsiva.
-- Próximas etapas: autenticação Better Auth, CRUD com autorização no servidor, upload pelo formulário, reservas e implantação pública na Vercel.
+- Etapa 3: cadastro, login e logout com Better Auth, sessão persistente e página de conta protegida.
+- Próximas etapas: CRUD com autorização no servidor, upload pelo formulário, reservas e implantação pública na Vercel.
 
-As tabelas de autenticação e reservas já existem. Seus fluxos de interface e Server Actions ainda não foram implementados. Esta entrega não representa o atendimento completo dos 15 pontos.
+As tabelas de autenticação e reservas já existem. A autenticação está implementada. CRUD e reservas ainda estão pendentes. Esta entrega não representa o atendimento completo dos 15 pontos.
 
 ## Stack
 
@@ -58,7 +59,7 @@ Se os oito espaços já foram inseridos, não é necessário repetir o seed nest
 | SEED_OWNER_PASSWORD   | Senha de demonstração com 12 a 128 caracteres              |
 | SHADOW_DATABASE_URL   | Opcional, banco separado somente para migrate dev          |
 
-Na Vercel, cadastrar as cinco variáveis principais com valores reais. As variáveis de seed só são necessárias ao executar o seed. Usar uma URL de produção no Better Auth quando sua integração for implementada.
+Na Vercel, cadastrar as cinco variáveis principais com valores reais. As variáveis de seed só são necessárias ao executar o seed. Usar uma URL de produção no Better Auth no ambiente de produção.
 
 ## Páginas para testar
 
@@ -87,7 +88,7 @@ npm run start
 
 O build mantém exatamente `prisma generate && prisma migrate deploy && next build`. O postinstall mantém `prisma generate`.
 
-Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os testes locais e o procedimento para integrar esta etapa estão em [docs/ETAPA2.md](docs/ETAPA2.md).
+Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem horizontal; controles acessíveis; busca vazia, busca sem resultados e links de detalhes. Os procedimentos incrementais estão em [docs/ETAPA2.md](docs/ETAPA2.md) e [docs/ETAPA3.md](docs/ETAPA3.md).
 
 ## Segurança e decisões de implementação
 
@@ -96,7 +97,7 @@ Testar também o catálogo e os detalhes em 375px no navegador: nenhuma rolagem 
 - Filtros são validados no servidor com Zod, incluindo limite de 120 caracteres.
 - Imagens externas são aceitas somente de subdomínios públicos do Vercel Blob. Falhas exibem um estado acessível.
 - As fontes não dependem de uma requisição ao Google durante o build.
-- Não há criação, edição ou exclusão de registros nesta etapa.
+- O CRUD de espaços e reservas será acrescentado nas próximas etapas.
 - Credenciais, cliente Prisma gerado e fotografias locais do seed ficam fora do versionamento. `.env.example` contém apenas chaves vazias.
 
 ## Uso de IA
@@ -116,4 +117,12 @@ A implantação será verificada em uma etapa posterior. Importar o repositório
 
 ## Pendências para a entrega final
 
-Integrantes e modelo oficial do README; autenticação; CRUD completo; upload pelo formulário; reservas e conflitos; testes de autorização; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
+Integrantes e modelo oficial do README; CRUD completo; upload pelo formulário; reservas e conflitos; testes de autorização; domínio público de produção; histórico de commits reais de ambos os integrantes. Não fabricar autoria ou retroagir commits.
+
+## Autenticação — Etapa 3
+
+Rotas: `/cadastro`, `/login`, `/conta` e `/api/auth/[...all]`. A página `/conta` verifica a sessão no servidor; usuários sem sessão são redirecionados para `/login`. Cadastro e login normalizam o e-mail e validam entradas no servidor com Zod. Use uma senha de 12 a 128 caracteres. Não há envio de e-mail ou recuperação de senha nesta etapa.
+
+A integração usa Better Auth 1.7.6, sem atualizar a stack. Foram testados cadastro, login, logout, hash da senha, cookie HttpOnly, persistência, expiração e rejeição de origem externa, em banco de teste isolado. O teste inicial que esperava HTTP 307 foi ajustado para verificar o redirecionamento real do Next.js em respostas de streaming.
+
+A duplicação de formulário da etapa 2 foi corrigida com chaves distintas no React; buscas consecutivas passaram nos testes. Os detalhes e o registro de IA estão em `docs/ETAPA3.md`.

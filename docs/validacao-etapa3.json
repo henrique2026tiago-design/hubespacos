@@ -1,0 +1,21 @@
+{
+  "build": true,
+  "cadastro": true,
+  "login": true,
+  "logout": true,
+  "hashVerificado": true,
+  "cookieHttpOnly": true,
+  "confirmacaoSenhaServidor": true,
+  "validacaoZod": true,
+  "origemRejeitada": true,
+  "sessaoPersistente": true,
+  "sessaoExpirada": true,
+  "contaProtegida": true,
+  "emailDuplicado": true,
+  "limitadorTentativas": true,
+  "buscasConsecutivas": true,
+  "largura375SemOverflow": true,
+  "errosJS": [],
+  "banco": "PGlite isolado, não Neon de produção",
+  "fotografias": "Intercepção exclusiva do QA; aplicação usa URLs reais do banco"
+}

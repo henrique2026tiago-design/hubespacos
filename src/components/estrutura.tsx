@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Icone } from "./icone";
+import { ControlesConta } from "./controlesConta";
 export function Cabecalho() {
   return (
     <header className="cabecalho">
@@ -21,9 +22,7 @@ export function Cabecalho() {
             Como funciona
           </Link>
         </nav>
-        <span className="seloCabecalho">
-          <span className="pontoVerde" /> Seu próximo encontro começa aqui
-        </span>
+        <ControlesConta />
       </div>
     </header>
   );

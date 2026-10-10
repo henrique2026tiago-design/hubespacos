@@ -1350,3 +1350,421 @@ h3 {
     letter-spacing: -1.8px;
   }
 }
+
+/* Conta e autenticação */
+.controlesConta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  min-width: 0;
+}
+.linkEntrar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: var(--verde);
+  border: 1px solid #bed6c7;
+  padding: 9px 17px;
+  border-radius: 7px;
+  font-weight: 600;
+}
+.linkEntrar:hover {
+  background: #e9f3ed;
+}
+.linkMinhaConta {
+  font-weight: 600;
+  color: var(--verde);
+}
+.linkMinhaConta:hover {
+  text-decoration: underline;
+}
+.botaoSair {
+  background: transparent;
+  color: var(--muted);
+  border: 0;
+  padding: 8px 0;
+  font-size: 12px;
+}
+.botaoSair:hover {
+  color: var(--concreto);
+}
+.botaoSair:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.carregandoConta {
+  font-size: 10px;
+  color: var(--muted);
+  min-width: 100px;
+  text-align: right;
+}
+.erroSair {
+  width: 100%;
+  max-width: 240px;
+  font-size: 10px;
+  color: #9b2c2c;
+  text-align: right;
+}
+.paginaAuth {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 430px);
+  gap: 80px;
+  padding-block: 62px 75px;
+  align-items: center;
+  min-height: 75vh;
+}
+.apresentacaoAuth h1 {
+  font-size: 43px;
+  letter-spacing: -1.8px;
+  margin: 15px 0 20px;
+  line-height: 1.15;
+}
+.apresentacaoAuth h1 span {
+  color: var(--verde);
+}
+.introducaoAuth {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 390px;
+}
+.fotoAuth {
+  height: 260px;
+  position: relative;
+  border-radius: 14px 14px 45px 14px;
+  overflow: hidden;
+  background: #e7eeea;
+  margin-top: 30px;
+}
+.fotoAuth:after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  background: linear-gradient(transparent, #182e22aa);
+  pointer-events: none;
+}
+.legendaAuth {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  right: 22px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 1;
+}
+.quadroAuth {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 32px;
+  min-width: 0;
+}
+.quadroAuth h2 {
+  font-size: 27px;
+  letter-spacing: -1px;
+  margin: 9px 0 10px;
+}
+.descricaoFormularioAuth {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+.formularioAuth fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.campoAuth {
+  margin-bottom: 18px;
+}
+.campoAuth label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+.campoAuth input {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  border: 1px solid #d6dfe6;
+  border-radius: 7px;
+  background: #f9fbfc;
+  color: var(--concreto);
+  padding: 0 12px;
+  font-size: 14px;
+}
+.campoAuth input::placeholder {
+  font-size: 12px;
+  color: #788595;
+}
+.entradaSenha {
+  position: relative;
+}
+.entradaSenha input {
+  padding-right: 77px;
+}
+.entradaSenha button {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  color: var(--verde);
+}
+.ajudaCampoAuth {
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.botaoAuth {
+  width: 100%;
+  margin-top: 5px;
+  justify-content: space-between;
+}
+.alternarAuth {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 21px;
+}
+.alternarAuth a {
+  color: var(--verde);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alertaAuth {
+  font-size: 12px;
+  color: #9b2c2c;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  padding: 12px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  overflow-wrap: anywhere;
+}
+.voltarCatalogoAuth {
+  border-top: 1px solid var(--borda);
+  padding-top: 20px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.voltarCatalogoAuth svg {
+  width: 16px;
+  height: 16px;
+}
+.voltarCatalogoAuth:hover {
+  color: var(--verde);
+}
+.paginaConta {
+  padding-block: 57px 80px;
+  min-height: 70vh;
+}
+.paginaConta > h1 {
+  font-size: 39px;
+  letter-spacing: -1.6px;
+  margin: 12px 0 18px;
+  overflow-wrap: anywhere;
+}
+.introducaoConta {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 560px;
+}
+.gradeConta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 30px;
+  margin-top: 34px;
+}
+.dadosConta,
+.conviteConta {
+  padding: 32px;
+  border-radius: 12px;
+  min-width: 0;
+}
+.dadosConta {
+  background: white;
+  border: 1px solid var(--borda);
+}
+.dadosConta h2 {
+  font-size: 23px;
+  letter-spacing: -0.7px;
+}
+.dadosConta dl {
+  margin: 26px 0;
+}
+.dadosConta dl > div {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.dadosConta dt {
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.dadosConta dd {
+  margin: 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.notaConta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--verde);
+}
+.notaConta svg {
+  width: 17px;
+  height: 17px;
+}
+.conviteConta {
+  background: #edf3ef;
+  border: 1px solid #dce8df;
+}
+.conviteConta h2 {
+  font-size: 29px;
+  letter-spacing: -1px;
+  line-height: 1.3;
+  margin: 15px 0 17px;
+}
+.conviteConta > p:not(.sobretitulo) {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-bottom: 25px;
+  max-width: 330px;
+}
+@media (max-width: 1050px) {
+  .linhaCabecalho {
+    gap: 25px;
+  }
+  .menuPrincipal {
+    margin-left: 0;
+  }
+  .controlesConta {
+    gap: 12px;
+  }
+  .paginaAuth {
+    gap: 42px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 390px);
+  }
+  .apresentacaoAuth h1 {
+    font-size: 37px;
+  }
+}
+@media (max-width: 760px) {
+  .paginaAuth {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 530px;
+    padding-block: 36px 48px;
+    gap: 28px;
+  }
+  .apresentacaoAuth h1 {
+    font-size: 34px;
+    letter-spacing: -1.2px;
+  }
+  .fotoAuth {
+    display: none;
+  }
+  .introducaoAuth {
+    max-width: none;
+  }
+  .gradeConta {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .paginaConta > h1 {
+    font-size: 31px;
+  }
+  .paginaConta {
+    padding-block: 38px 50px;
+  }
+}
+@media (max-width: 640px) {
+  .linhaCabecalho {
+    flex-wrap: wrap;
+    padding-block: 14px;
+    gap: 12px;
+  }
+  .menuPrincipal {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    border-top: 1px solid var(--borda);
+    padding-top: 10px;
+    gap: 22px;
+  }
+  .menuPrincipal .linkSecundario {
+    display: block;
+  }
+  .controlesConta {
+    gap: 12px;
+    font-size: 11px;
+  }
+  .linkEntrar {
+    padding: 7px 12px;
+    font-size: 11px;
+    gap: 9px;
+  }
+  .carregandoConta {
+    font-size: 9px;
+    min-width: 0;
+  }
+  .botaoSair {
+    font-size: 11px;
+  }
+  .quadroAuth {
+    padding: 23px;
+  }
+  .quadroAuth h2 {
+    font-size: 25px;
+  }
+  .campoAuth input {
+    font-size: 16px;
+  }
+  .campoAuth input::placeholder {
+    font-size: 12px;
+  }
+  .apresentacaoAuth h1 {
+    font-size: 33px;
+  }
+  .paginaAuth {
+    gap: 24px;
+  }
+  .descricaoFormularioAuth {
+    font-size: 12px;
+  }
+  .alternarAuth {
+    font-size: 11px;
+  }
+  .dadosConta,
+  .conviteConta {
+    padding: 24px;
+  }
+  .conviteConta h2 {
+    font-size: 25px;
+  }
+  .erroSair {
+    max-width: 160px;
+  }
+}
